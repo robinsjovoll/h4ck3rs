@@ -57,7 +57,7 @@ class UserController extends Controller
         if(Auth::userAccess($tuserid))
         {
             $user = Sql::getUserById($tuserid);
-            $user->delete();
+            Sql::deleteUser($user);
             $this->app->flash('info', 'User ' . $user->getUsername() . '  with id ' . $tuserid . ' has been deleted.');
             $this->app->redirect('/admin');
         } else {
@@ -80,7 +80,7 @@ class UserController extends Controller
                foreach( $userlist as $duserid)
                {
                     $user = Sql::getUserById($duserid);
-                    if(  $user->delete() == 1) { //1 row affect by delete, as expect..
+                    if(  Sql::deleteUser($user) == 1) { //1 row affect by delete, as expect..
                       $deleted[] = $user->getId();
                     }
                }

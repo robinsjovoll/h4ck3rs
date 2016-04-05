@@ -18,7 +18,7 @@ class Sql
     static function up() {
         $q1 = "CREATE TABLE users (id INTEGER PRIMARY KEY, username VARCHAR(50), password VARCHAR(50), email varchar(50),  bio varhar(50), isadmin INTEGER);";
 
-        self::$pdo->exec($q1);
+        self::executeUpdate($q1);
 
         print "[ttm4135] Done creating all SQL tables.".PHP_EOL;
 
@@ -27,12 +27,9 @@ class Sql
 
     static function insertDummyUsers() {
 
-
-        $q1 = "INSERT INTO users(username, password, isadmin) VALUES ('hackers', 'ed88459e', 1)";
-        $q2 = "INSERT INTO users(username, password) VALUES ('bob', 'bob')";
-
-        self::$pdo->exec($q1);
-        self::$pdo->exec($q2);
+        $insertQuery = "INSERT INTO users(username, password, isadmin) VALUES ('hackers', 'ed88459e', 1)";
+        self::executeUpdate($insertQuery, ['hackers', 'ed88459e', 1]);
+        self::executeUpdate($insertQuery, ['hackers', 'ed88459e', 0]);
 
         print "[ttm4135] Done inserting dummy users.".PHP_EOL;
     }
@@ -73,6 +70,27 @@ class Sql
         }
 
         return User::makeFromSql($row);
+    }
+
+    static function deleteUser($user) {
+        if ($user->getId() === null) {
+            return false;
+        }
+
+        return self::executeUpdate(User::DELETE_QUERY, [$user->getId()]);
+    }
+
+    static function getAllUsers() {
+        $results = Sql::executeQuery(User::ALL_QUERY);
+
+        $users = [];
+
+        foreach ($results as $row) {
+            $user = User::makeFromSql($row);
+            array_push($users, $user);
+        }
+
+        return $users;
     }
 
     static function addUser($user, $update = true) {

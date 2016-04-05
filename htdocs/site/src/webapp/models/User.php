@@ -6,11 +6,13 @@ use ttm4135\webapp\Sql;
 
 class User
 {
-    const INSERT_QUERY = "INSERT INTO users(username, password, email, bio, isadmin) VALUES(?, ?, ?, ?, ?)";
-    const UPDATE_QUERY = "UPDATE users SET username=?, password=?, email=?, bio=?, isadmin=? WHERE id=?";
-    const DELETE_QUERY = "DELETE FROM users WHERE id='%s'";
-    const FIND_BY_NAME_QUERY = "SELECT * FROM users WHERE username=?";
-    const FIND_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
+    const INSERT_QUERY          = "INSERT INTO users(username, password, email, bio, isadmin) VALUES(?, ?, ?, ?, ?)";
+    const UPDATE_QUERY          = "UPDATE users SET username=?, password=?, email=?, bio=?, isadmin=? WHERE id=?";
+    const DELETE_QUERY          = "DELETE FROM users WHERE id='%s'";
+    const FIND_BY_NAME_QUERY    = "SELECT * FROM users WHERE username=?";
+    const FIND_BY_ID_QUERY      = "SELECT * FROM users WHERE id=?";
+    const ALL_QUERY             = "SELECT * FROM users";
+
     protected $id = null;
     protected $username;
     protected $password;
@@ -114,21 +116,6 @@ class User
         $this->isAdmin = $isAdmin;
     }
     
-    
-    static function all()
-    {
-        $query = "SELECT * FROM users";
-        $results = self::$app->db->query($query);
-
-        $users = [];
-
-        foreach ($results as $row) {
-            $user = User::makeFromSql($row);
-            array_push($users, $user);
-        }
-
-        return $users;
-    }
 
     static function makeFromSql($row)
     {

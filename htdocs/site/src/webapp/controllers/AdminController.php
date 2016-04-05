@@ -4,6 +4,7 @@ namespace ttm4135\webapp\controllers;
 
 use ttm4135\webapp\models\User;
 use ttm4135\webapp\Auth;
+use ttm4135\webapp\Sql;
 
 class AdminController extends Controller
 {
@@ -15,7 +16,7 @@ class AdminController extends Controller
     function index()     
     {
         if (Auth::isAdmin()) {
-            $users = User::all();
+            $users = Sql::getAllUsers();
             $this->render('users.twig', ['users' => $users]);
         } else {
             $username = Auth::user()->getUserName();
