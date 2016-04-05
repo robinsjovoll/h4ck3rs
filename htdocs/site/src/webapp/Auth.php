@@ -12,6 +12,7 @@ class Auth
 
     static function checkCredentials($username, $password)
     {
+
         $user = User::findByUser($username);
 
         if ($user === null) {

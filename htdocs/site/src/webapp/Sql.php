@@ -37,6 +37,13 @@ class Sql
         print "[ttm4135] Done inserting dummy users.".PHP_EOL;
     }
 
+    static function executeQuery($query, $parameters = array()) {
+        $statement = self::$pdo->prepare($query);
+        $result = $statement->execute($parameters);
+
+        return $result;
+    }
+
     static function addUser($user, $update = true) {
         if ($user->getId() !== null && !$update) {
             return false;
@@ -50,13 +57,11 @@ class Sql
             $parameters = [$user->getUsername(), $user->getPassword(), $user->getEmail(), $user->getBio(), $user->isAdmin()];
         }
 
-        $statement = self::$pdo->prepare($query);
-        $result = $statement->execute($parameters);
+        $result = Sql::executeQuery($query, $parameters);
 
         print "[ttm4135] Done inserting user.".PHP_EOL;
         return $result;
     }
-
 
 
     static function down() {
