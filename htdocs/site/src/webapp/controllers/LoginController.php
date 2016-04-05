@@ -3,6 +3,7 @@
 namespace ttm4135\webapp\controllers;
 use ttm4135\webapp\Auth;
 use ttm4135\webapp\models\User;
+use ttm4135\webapp\extras\Handlers;
 use ttm4135\webapp\Sql;
 
 class LoginController extends Controller
@@ -30,8 +31,8 @@ class LoginController extends Controller
         $password = $request->post('password');
 
         if ( Auth::checkCredentials($username, $password) ) {
-//            set_username_cookie($username);
-            $user = Sql::getUserByUsername($username);
+            Handlers::set_username_cookie($username);
+            $user = Sql::getUserByUsername($username); //TODO: Move to correct location
             $_SESSION['userid'] = $user->getId();
             $this->app->flash('info', "You are now successfully logged in as " . $user->getUsername() . ".");
             $this->app->redirect('/');
