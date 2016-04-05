@@ -38,15 +38,15 @@ class Sql
     }
 
     static function addUser($user, $update = true) {
-        if ($user->id !== null && !$update) {
+        if ($user->getId() !== null && !$update) {
             return false;
         }
 
-        if ($user->id !== null) {
+        if ($user->getId() !== null) {
             $query = User::UPDATE_QUERY;
             $parameters = [$user->getUsername(), $user->getPassword(), $user->getEmail(), $user->getBio(), $user->isAdmin(), $user->getId()];
         } else {
-            $query = self::$pdo->prepare(User::INSERT_QUERY);
+            $query = User::INSERT_QUERY;
             $parameters = [$user->getUsername(), $user->getPassword(), $user->getEmail(), $user->getBio(), $user->isAdmin()];
         }
 
