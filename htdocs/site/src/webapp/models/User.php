@@ -26,12 +26,12 @@ class User
     static function make($id, $username, $password, $email, $bio, $isAdmin )
     {
         $user = new User();
-        $user->id = $id;
+        $user->id       = $id;
         $user->username = $username;
         $user->password = $password;
-        $user->email = $email;
-        $user->bio = $bio;
-        $user->isAdmin = $isAdmin;
+        $user->email    = $email;
+        $user->bio      = $bio;
+        $user->isAdmin  = $isAdmin;
 
         return $user;
     }
@@ -47,14 +47,6 @@ class User
     function save()
     {
         return Sql::addUser($this);
-    }
-
-    function delete()
-    {
-        $query = sprintf(self::DELETE_QUERY,
-            $this->id
-        );
-        return self::$app->db->exec($query);
     }
 
     function getId()
