@@ -4,6 +4,7 @@ namespace ttm4135\webapp\controllers;
 
 use ttm4135\webapp\models\User;
 use ttm4135\webapp\Auth;
+use ttm4135\webapp\Sql;
 
 class UserController extends Controller
 {
@@ -55,7 +56,7 @@ class UserController extends Controller
     {
         if(Auth::userAccess($tuserid))
         {
-            $user = User::findById($tuserid);
+            $user = Sql::getUserById($tuserid);
             $user->delete();
             $this->app->flash('info', 'User ' . $user->getUsername() . '  with id ' . $tuserid . ' has been deleted.');
             $this->app->redirect('/admin');
@@ -78,7 +79,7 @@ class UserController extends Controller
           } else {
                foreach( $userlist as $duserid)
                {
-                    $user = User::findById($duserid);
+                    $user = Sql::getUserById($duserid);
                     if(  $user->delete() == 1) { //1 row affect by delete, as expect..
                       $deleted[] = $user->getId();
                     }
@@ -99,7 +100,7 @@ class UserController extends Controller
     {
         if(Auth::userAccess($tuserid))
         {
-          $user = User::findById($tuserid);
+          $user = Sql::getUserById($tuserid);
           $this->render('showuser.twig', [
             'user' => $user
           ]);
@@ -150,7 +151,7 @@ class UserController extends Controller
     function edit($tuserid)    
     { 
 
-        $user = User::findById($tuserid);
+        $user = Sql::getUserById($tuserid);
 
         if (! $user) {
             throw new \Exception("Unable to fetch logged in user's object from db.");
@@ -176,7 +177,7 @@ class UserController extends Controller
             $user->save();
             $this->app->flashNow('info', 'Your profile was successfully saved.');
 
-            $user = User::findById($tuserid);
+            $user = Sql::getUserById($tuserid);
 
             $this->render('showuser.twig', ['user' => $user]);
 

@@ -9,8 +9,8 @@ class User
     const INSERT_QUERY = "INSERT INTO users(username, password, email, bio, isadmin) VALUES(?, ?, ?, ?, ?)";
     const UPDATE_QUERY = "UPDATE users SET username=?, password=?, email=?, bio=?, isadmin=? WHERE id=?";
     const DELETE_QUERY = "DELETE FROM users WHERE id='%s'";
-    const FIND_BY_NAME_QUERY = "SELECT * FROM users WHERE username='%s'";
-    const FIND_BY_ID_QUERY = "SELECT * FROM users WHERE id='%s'";
+    const FIND_BY_NAME_QUERY = "SELECT * FROM users WHERE username=?";
+    const FIND_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
     protected $id = null;
     protected $username;
     protected $password;
@@ -113,46 +113,7 @@ class User
     {
         $this->isAdmin = $isAdmin;
     }
-
-
-    /**
-     * Get user in db by userid
-     *
-     * @param string $userid
-     * @return mixed User or null if not found.
-     */
-    static function findById($userid)
-    {
-        $query = sprintf(self::FIND_BY_ID_QUERY, $userid);
-        $result = self::$app->db->query($query, \PDO::FETCH_ASSOC);
-        $row = $result->fetch();
-
-        if($row == false) {
-            return null;
-        }
-
-        return User::makeFromSql($row);
-    }
-
-    /**
-     * Find user in db by username.
-     *
-     * @param string $username
-     * @return mixed User or null if not found.
-     */
-    static function findByUser($username)
-    {
-        $query = sprintf(self::FIND_BY_NAME_QUERY, $username);
-        $result = self::$app->db->query($query, \PDO::FETCH_ASSOC);
-        $row = $result->fetch();
-
-        if($row == false) {
-            return null;
-        }
-
-        return User::makeFromSql($row);
-    }
-
+    
     
     static function all()
     {

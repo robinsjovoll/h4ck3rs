@@ -12,17 +12,16 @@ class Auth
 
     static function checkCredentials($username, $password)
     {
-
-        $user = User::findByUser($username);
+        $user = Sql::getUserByUsername($username);
 
         if ($user === null) {
             return false;
         }
 
-        if( $user->getPassword() == $password)
-        {
-          return true;
+        if( $user->getPassword() == $password) {
+            return true;
         }
+
         return false;
     }
 
@@ -48,7 +47,7 @@ class Auth
     static function user()
     {
         if (self::check()) {
-            return User::findById($_SESSION['userid']);         
+            return Sql::getUserById($_SESSION['userid']);
         }
     }
 
