@@ -44,10 +44,10 @@ class Sql
 
         if ($user->id !== null) {
             $query = User::UPDATE_QUERY;
-            $parameters = [$user->username, $user->password, $user->email, $user->bio, $user->isAdmin, $user->id];
+            $parameters = [$user->getUsername(), $user->getPassword(), $user->getEmail(), $user->getBio(), $user->isAdmin(), $user->getId()];
         } else {
             $query = self::$pdo->prepare(User::INSERT_QUERY);
-            $parameters = [$user->username, $user->password, $user->email, $user->bio, $user->isAdmin];
+            $parameters = [$user->getUsername(), $user->getPassword(), $user->getEmail(), $user->getBio(), $user->isAdmin()];
         }
 
         $statement = self::$pdo->prepare($query);
