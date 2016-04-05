@@ -6,6 +6,8 @@
  * Time: 17:24
  */
 
+namespace ttm4135\webapp\extras;
+
 class CSRF
 {
     private $name;
@@ -27,7 +29,31 @@ class CSRF
 
     private function csrfguard_generate_token($unique_form_name)
     {
-        return hash("sha256", mt_rand(0, mt_getrandmax()));
+
+        if (function_exists("hash_algos") and in_array("sha512",hash_algos()))
+        {
+            $token=hash("sha512",mt_rand(0,mt_getrandmax()));
+        }
+        else
+        {
+            $token=' ';
+            for ($i=0;$i<128;++$i)
+            {
+                $r=mt_rand(0,35);
+                if ($r<26)
+                {
+                    $c=chr(ord('a')+$r);
+                }
+                else
+                {
+                    $c=chr(ord('0')+$r-26);
+                }
+                $token.=$c;
+            }
+        }
+        $this->store_in_session($unique_form_name,$token);
+//        return $token;
+        return hash("sha512", mt_rand(0, mt_getrandmax()));
     }
 
     public static function csrfguard_validate_token($name, $token_value)

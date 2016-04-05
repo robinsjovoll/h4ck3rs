@@ -2,10 +2,12 @@
 
 namespace ttm4135\webapp\controllers;
 
+use ttm4135\webapp\extras\CSRF;
 use ttm4135\webapp\extras\Handlers;
 use ttm4135\webapp\models\User;
 use ttm4135\webapp\Auth;
 use ttm4135\webapp\Sql;
+
 
 class UserController extends Controller
 {
@@ -30,11 +32,15 @@ class UserController extends Controller
         $request = $this->app->request;
         $username = $request->post('username');
         $password = $request->post('password');
-
+        $options = [
+            'cost' => 11,
+            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+        ];
+        $hash_password = password_hash($password, CRYPT_BLOWFISH, $options);
 
         $user = User::makeEmpty();
         $user->setUsername($username);
-        $user->setPassword($password);
+        $user->setPassword($hash_password);
 
         if($request->post('email'))
         {
@@ -47,24 +53,36 @@ class UserController extends Controller
           $user->setBio($bio);
         }
 
-        
-        $user->save();
-        $this->app->flash('info', 'Thanks for creating a user. You may now log in.');
-        $this->app->redirect('/login');
+        $name  = $_POST['CSRFname'];
+        $token = $_POST['CSRFtoken'];
+
+        if(!CSRF::csrfguard_validate_token($name,$token)){
+            header('Location: /register');
+        }else {
+
+            $user->save();
+            $this->app->flash('info', 'Thanks for creating a user. You may now log in.');
+            $this->app->redirect('/login');
+        }
     }
 
     function delete($tuserid)
     {
-        if(Auth::userAccess($tuserid))
-        {
-            $user = Sql::getUserById($tuserid);
-            Sql::deleteUser($user);
-            $this->app->flash('info', 'User ' . $user->getUsername() . '  with id ' . $tuserid . ' has been deleted.');
-            $this->app->redirect('/admin');
-        } else {
-            $username = Auth::user()->getUserName();
-            $this->app->flash('info', 'You do not have access this resource. You are logged in as ' . $username);
-            $this->app->redirect('/');
+        $name  = $_POST['CSRFname'];
+        $token = $_POST['CSRFtoken'];
+        if (!CSRF::csrfguard_validate_token($name, $token)) {
+            header('Location: index');
+        }else {
+            if (Auth::userAccess($tuserid)) {
+                $user = Sql::getUserById($tuserid);
+                Sql::deleteUser($user);
+                $this->app->flash('info', 'User ' . $user->getUsername() . '  with id ' . $tuserid . ' has been deleted.');
+                $this->app->redirect('/admin');
+            } else {
+                $username = Auth::user()->getUserName();
+                $this->app->flash('info', 'You do not have access this resource. You are logged in as ' . $username);
+                $this->app->redirect('/');
+            }
         }
     }
 
