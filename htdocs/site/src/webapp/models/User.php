@@ -115,7 +115,7 @@ class User
     {
         $this->isAdmin = $isAdmin;
     }
-    
+
 
     static function makeFromSql($row)
     {

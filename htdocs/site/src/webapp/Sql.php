@@ -27,9 +27,9 @@ class Sql
 
     static function insertDummyUsers() {
 
-        $insertQuery = "INSERT INTO users(username, password, isadmin) VALUES ('hackers', 'ed88459e', 1)";
+        $insertQuery = "INSERT INTO users(username, password, isadmin) VALUES (?, ?, ?)";
         self::executeUpdate($insertQuery, ['hackers', 'ed88459e', 1]);
-        self::executeUpdate($insertQuery, ['hackers', 'ed88459e', 0]);
+        self::executeUpdate($insertQuery, ['bob', 'bob', 0]);
 
         print "[ttm4135] Done inserting dummy users.".PHP_EOL;
     }
