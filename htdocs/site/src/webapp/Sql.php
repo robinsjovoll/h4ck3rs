@@ -109,6 +109,7 @@ class Sql
         $result = Sql::executeUpdate($query, $parameters);
 
         print "[ttm4135] Done inserting user.".PHP_EOL;
+
         return $result;
     }
 
