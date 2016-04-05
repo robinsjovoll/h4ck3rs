@@ -31,8 +31,8 @@ class LoginController extends Controller
         $password = $request->post('password');
 
         if ( Auth::checkCredentials($username, $password) ) {
-            Handlers::set_username_cookie($username);
-            $user = Sql::getUserByUsername($username); //TODO: Move to correct location
+            Handlers::set_username_cookie($username);//TODO: Move to correct location
+            $user = Sql::getUserByUsername($username);
             $_SESSION['userid'] = $user->getId();
             $this->app->flash('info', "You are now successfully logged in as " . $user->getUsername() . ".");
             $this->app->redirect('/');
