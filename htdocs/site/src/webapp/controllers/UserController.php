@@ -2,6 +2,7 @@
 
 namespace ttm4135\webapp\controllers;
 
+use ttm4135\webapp\extras\Handlers;
 use ttm4135\webapp\models\User;
 use ttm4135\webapp\Auth;
 use ttm4135\webapp\Sql;
@@ -101,8 +102,10 @@ class UserController extends Controller
         if(Auth::userAccess($tuserid))
         {
           $user = Sql::getUserById($tuserid);
+            $handler = Handlers::class;
           $this->render('showuser.twig', [
-            'user' => $user
+            'user' => $user,
+              'handlers' => $handler
           ]);
         } else {
             $username = Auth::user()->getUserName();
