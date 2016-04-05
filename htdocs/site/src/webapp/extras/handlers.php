@@ -1,8 +1,8 @@
 <?
 //TODO: REMOVE
-//function sanify($data, $encoding = 'UTF-8') {
-//    return htmlspecialchars($data, ENT_QUOTES | ENT_HTML401, $encoding);
-//}
+function sanify($data, $encoding = 'UTF-8') {
+    return htmlspecialchars($data, ENT_QUOTES | ENT_HTML401, $encoding);
+}
 
 function valid_certificate() {
     $staffCaTag        = 'CN=Staff CA,OU=Telematics,O=NORGES TEKNISK-NATURVITENSKAPELIGE UNIVERSITET NTNU,C=NO';
@@ -33,6 +33,7 @@ function set_username_cookie($username) {
         $cookie_value         = $username;
         $thirty_days_from_now = time() + (86400 * 30);
 
+        //Cookie values
         setcookie(
             $cookie_name,
             $cookie_value,
