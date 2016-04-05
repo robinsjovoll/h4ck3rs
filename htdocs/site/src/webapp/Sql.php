@@ -94,9 +94,9 @@ class Sql
     }
 
     static function addUser($user, $update = true) {
-        if ($user->getId() !== null && !$update) {
-            return false;
-        }
+//        if ($user->getId() !== null && !$update) {
+//            return false;
+//        }
 
         if ($user->getId() !== null) {
             $query = User::UPDATE_QUERY;
