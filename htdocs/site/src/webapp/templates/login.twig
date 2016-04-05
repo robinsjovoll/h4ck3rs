@@ -11,9 +11,9 @@
 <form action="" method="POST">
 
 <label>Username: </label>
-<input type="text" name="username"> <br />
+<input type="text" name="username" value="<?=get_cookie_username() ?>"> <br />
 <label>Password: </label>
-<input type="text" name="password"> <br />
+<input type="password" name="password"> <br />
 <input type="submit" name="submit" value="Log in">
 </form>
 {% endblock %}
