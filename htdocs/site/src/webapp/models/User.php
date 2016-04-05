@@ -7,7 +7,7 @@ use ttm4135\webapp\Sql;
 class User
 {
     const INSERT_QUERY          = "INSERT INTO users(username, password, email, bio, isadmin) VALUES(?, ?, ?, ?, ?)";
-    const UPDATE_QUERY          = "INSERT INTO users(username, password, email, bio, isadmin, id) VALUES(?, ?, ?, ?, ?, ?)";
+    const UPDATE_QUERY          = "INSERT OR REPLACE INTO users(username, password, email, bio, isadmin, id) VALUES(?, ?, ?, ?, ?, ?)";
     const DELETE_QUERY          = "DELETE FROM users WHERE id='%s'";
     const FIND_BY_NAME_QUERY    = "SELECT * FROM users WHERE username=?";
     const FIND_BY_ID_QUERY      = "SELECT * FROM users WHERE id=?";
