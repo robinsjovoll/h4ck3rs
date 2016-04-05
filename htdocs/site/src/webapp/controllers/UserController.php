@@ -165,7 +165,10 @@ class UserController extends Controller
             $email = $request->post('email');
             $bio = $request->post('bio');
 
-            $isAdmin = ($request->post('isAdmin') != null);
+            $isAdmin = $request->post('isAdmin');
+            if ($isAdmin === null) {
+                $isAdmin = "0";
+            }
             
 
             $user->setUsername($username);

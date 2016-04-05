@@ -114,9 +114,7 @@ class Sql
 
 
     static function down() {
-        $q1 = "DROP TABLE users";
-
-        self::$pdo->exec($q1);
+        Sql::executeUpdate("DROP TABLE users");
 
         print "[ttm4135] Done deleting all SQL tables.".PHP_EOL;
     }
