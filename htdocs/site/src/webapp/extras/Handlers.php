@@ -1,6 +1,7 @@
-<?
+<?php
 
-namespace ttm4135\webapp\extras;
+namespace ttm4135\webapp;
+
 class Handlers
 {
 //TODO: REMOVE
