@@ -106,7 +106,7 @@ class UserController extends Controller
             $handler = Handlers::class;
           $this->render('showuser.twig', [
             'user' => $user,
-              'handlers' => $handler
+              'handler' => $handler
           ]);
         } else {
             $username = Auth::user()->getUserName();
@@ -169,21 +169,21 @@ class UserController extends Controller
             $password = $request->post('password');
             $email = $request->post('email');
             $bio = $request->post('bio');
-
+            $hashed_password = password_hash($password, CRYPT_BLOWFISH);
             $isAdmin = $request->post('isAdmin');
             if ($isAdmin === null) {
-                $isAdmin = "0";
+                $isAdmin = false;
             }
             
 
             $user->setUsername($username);
-            $user->setPassword($password);
+            $user->setPassword($hashed_password);
             $user->setBio($bio);
             $user->setEmail($email);
             $user->setIsAdmin($isAdmin);
 
             $user->save();
-            $this->app->flashNow('info', 'Your profile was successfully saved.');
+            $this->app->flashNow('info', 'Your profile was successfully saved.' . "       isAdmin: " . $isAdmin);
 
             $user = Sql::getUserById($tuserid);
 
