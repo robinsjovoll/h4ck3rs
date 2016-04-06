@@ -141,7 +141,8 @@ class UserController extends Controller
 
 
             $user->save();
-            $this->app->flashNow('info', 'Your profile was successfully saved. isadmin: ' . $isAdmin);
+            $tempUser = Sql::getUserByUsername($username);
+            $this->app->flashNow('info', 'Your profile was successfully saved. isadmin: ' . $tempUser->isAdmin());
 
             $this->app->redirect('/admin');
 
@@ -183,7 +184,8 @@ class UserController extends Controller
             $user->setIsAdmin($isAdmin);
 
             $user->save();
-            $this->app->flashNow('info', 'Your profile was successfully saved.' . "       isAdmin: " . $isAdmin);
+            $tempUser = Sql::getUserByUsername($username);
+            $this->app->flashNow('info', 'Your profile was successfully saved.');
 
             $user = Sql::getUserById($tuserid);
 

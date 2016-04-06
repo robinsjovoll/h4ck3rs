@@ -76,7 +76,7 @@ class User
 
     function isAdmin()
     {
-        return $this->isAdmin === "1";
+        return $this->isAdmin;
     }
 
     function setId($id)
