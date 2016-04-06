@@ -3,8 +3,10 @@
 namespace ttm4135\webapp\controllers;
 use ttm4135\webapp\Auth;
 use ttm4135\webapp\models\User;
+use ttm4135\webapp\extras\CSRF;
 use ttm4135\webapp\extras\Handlers;
 use ttm4135\webapp\Sql;
+
 
 class LoginController extends Controller
 {
@@ -39,6 +41,8 @@ class LoginController extends Controller
         if ( Auth::checkCredentials($username, $password, $hashedPassword) ) {
             Handlers::set_username_cookie($username);
             $user = Sql::getUserByUsername($username);
+
+            $csrf = new CSRF();
             $_SESSION['userid'] = $user->getId();
             $this->app->flash('info', "You are now successfully logged in as " . $user->getUsername() . ".");
             $this->app->redirect('/');
@@ -49,10 +53,18 @@ class LoginController extends Controller
     }
 
     function logout()
-    {   
-        Auth::logout();
-        $this->app->flashNow('info', 'Logged out successfully!!');
-        $this->render('base.twig', []);
+    {
+//        $name = CSRF::getName();
+//        $token = CSRF::getToken();
+//        if(CSRF::csrfguard_validate_token($name,$token)) {
+            Auth::logout();
+            $this->app->flashNow('info', 'Logged out successfully!!');
+            $this->render('base.twig', []);
+//        }else {
+//            Auth::logout();
+//            $this->app->flashNow('info', 'Unlegal token');
+//            $this->render('base.twig', []);
+//        }
         return;
        
     }
