@@ -29,8 +29,10 @@ class LoginController extends Controller
         $request = $this->app->request;
         $username = $request->post('username');
         $password = $request->post('password');
-
-        if ( Auth::checkCredentials($username, $password) ) {
+        $user = Sql::getUserByUsername($username);
+        $hashedPassword = $user->getPassword();
+        $this->app->flashNow('info', $password . " checkingPass: " . $user->getPassword() . " verify: " . password_verify($password, $hashedPassword) . " checking: " .  Auth::checkCredentials($username, $password, $hashedPassword));
+        if ( Auth::checkCredentials($username, $password, $hashedPassword) ) {
 //            Handlers::set_username_cookie($username);//TODO: Move to correct location
             $user = Sql::getUserByUsername($username);
             $_SESSION['userid'] = $user->getId();

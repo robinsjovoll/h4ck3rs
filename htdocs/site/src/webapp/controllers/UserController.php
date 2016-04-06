@@ -31,10 +31,11 @@ class UserController extends Controller
         $username = $request->post('username');
         $password = $request->post('password');
 
+        $hashed_password = password_hash($password, CRYPT_BLOWFISH);
 
         $user = User::makeEmpty();
         $user->setUsername($username);
-        $user->setPassword($password);
+        $user->setPassword($hashed_password);
 
         if($request->post('email'))
         {
@@ -128,18 +129,19 @@ class UserController extends Controller
             $password = $request->post('password');
             $email = $request->post('email');
             $bio = $request->post('bio');
-
+            $hashed_password = password_hash($password, CRYPT_BLOWFISH);
             $isAdmin = ($request->post('isAdmin') != null);
             
 
             $user->setUsername($username);
-            $user->setPassword($password);
+            $user->setPassword($hashed_password);
             $user->setBio($bio);
             $user->setEmail($email);
             $user->setIsAdmin($isAdmin);
 
+
             $user->save();
-            $this->app->flashNow('info', 'Your profile was successfully saved.');
+            $this->app->flashNow('info', 'Your profile was successfully saved. isadmin: ' . $isAdmin);
 
             $this->app->redirect('/admin');
 
