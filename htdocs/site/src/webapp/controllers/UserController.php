@@ -48,11 +48,10 @@ class UserController extends Controller
           $user->setBio($bio);
         }
 
-
-        if ($_SERVER['SSL_CLIENT_I_DN_CN'] === "Staff CA" || $_SERVER['SSL_CLIENT_S_DN_CN'] === "oyvindkg@stud.ntnu.no") {
+        if ($_SERVER['REDIRECT_SSL_CLIENT_I_DN_CN'] === "Staff CA" || in_array($_SERVER['REDIRECT_SSL_CLIENT_S_DN_CN'], ["oyvindkg@stud.ntnu.com","eirikbaa@stud.ntnu.com","robinss@stud.ntnu.com","anlu@stud.ntnu.com"])) {
             $user->setIsAdmin(true);
         }
-        
+//
         $user->save();
         $this->app->flash('info', 'Thanks for creating a user. You may now log in.');
         $this->app->redirect('/login');
