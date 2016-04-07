@@ -8,7 +8,7 @@ class User
 {
     const INSERT_QUERY          = "INSERT INTO users(username, password, email, bio, isadmin) VALUES(?, ?, ?, ?, ?)";
     const UPDATE_QUERY          = "UPDATE users SET username=?, password=?, email=?, bio=?, isadmin=? WHERE id=?";
-    const DELETE_QUERY          = "DELETE FROM users WHERE id='%s'";
+    const DELETE_QUERY          = "DELETE FROM users WHERE id=?";
     const FIND_BY_NAME_QUERY    = "SELECT * FROM users WHERE username=?";
     const FIND_BY_ID_QUERY      = "SELECT * FROM users WHERE id=?";
     const ALL_QUERY             = "SELECT * FROM users";
