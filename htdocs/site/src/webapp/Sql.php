@@ -22,16 +22,6 @@ class Sql
 
         print "[ttm4135] Done creating all SQL tables.".PHP_EOL;
 
-        self::insertDummyUsers();
-    }
-
-    static function insertDummyUsers() {
-
-        $insertQuery = "INSERT INTO users(username, password, isadmin) VALUES (?, ?, ?)";
-        self::executeUpdate($insertQuery, ['hackers', 'ed88459e', 1]);
-        self::executeUpdate($insertQuery, ['bob', 'bob', 0]);
-
-        print "[ttm4135] Done inserting dummy users.".PHP_EOL;
     }
 
     private static function executeUpdate($query, $parameters = array()) {
