@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+    {% autoescape %}
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="/css/style.css"/>
@@ -16,7 +17,7 @@
                 <a href="/"> Home</a></br />
                 <br>
                 {% if isLoggedIn %}
-                    Logged in as {{ loggedInUsername|raw }}.<br>
+                    Logged in as {{ loggedInUsername }}.<br>
                     {% if isAdmin %}
                         <a href="/admin">Admin section</a> <br>
                     {% endif %}
@@ -30,7 +31,7 @@
 
             </div>
             <div id="content">
-                <div id="flashinfo">{{ flash.info|raw }}</div>
+                <div id="flashinfo">{{ flash.info }}</div>
 
 
                 {% block content %}
@@ -52,4 +53,5 @@
             {% block footer %}here be footer{% endblock %}
         </div>
     </body>
+    {% endautoescape %}
 </html>
