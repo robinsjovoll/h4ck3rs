@@ -10,19 +10,19 @@
 {{ flash.error|raw }} <br />
 
 <form action="" method="POST">
-
-<label>Username: </label>
-<input type="text" name="username" value="{{user.username|escape}}"> <br />
-<label>Password: </label>
-<input type="password" name="password">  <br />
-<label>email: </label>
-<input type="text" name="email" value="{{user.email|escape}}"> <br />
-<label>bio: </label>
-<input type="text" name="bio" value="{{user.bio|escape}}"> <br />
-<label>Administrator: </label>
-<input type="checkbox" name="isAdmin" value="true" {% if user.isAdmin  %} checked {% endif %}">
-
-<input type="submit" name="submit" value="Submit">
+    {% autoescape %}
+    <label>Username: </label>
+    <input type="text" name="username" value="{{user.username}}"> <br />
+    <label>Password: </label>
+    <input type="password" name="password">  <br />
+    <label>email: </label>
+    <input type="text" name="email" value="{{user.email}}"> <br />
+    <label>bio: </label>
+    <input type="text" name="bio" value="{{user.bio}}"> <br />
+    <label>Administrator: </label>
+    <input type="checkbox" name="isAdmin" value="true" {% if user.isAdmin  %} checked {% endif %}">
+    {% endautoescape %}
+    <input type="submit" name="submit" value="Submit">
 </form>
 {% endblock %}
 

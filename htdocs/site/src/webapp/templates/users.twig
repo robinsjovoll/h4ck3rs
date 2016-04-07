@@ -23,17 +23,19 @@
 
 {% for user in users %}
   <tr>
-      <td> <input type="checkbox" name="userlist[]" value="{{user.id|escape}}"></td>
-      <td> {{user.id|escape}} </td>
-      <td> {{user.username|escape}} </td>
-      <td> {{user.password|escape}} </td>
-      <td> {{user.email|escape}} </td>
-      <td> {{user.bio|escape}} </td>
+      {% autoescape %}
+      <td> <input type="checkbox" name="userlist[]" value="{{user.id}}"></td>
+      <td> {{user.id}} </td>
+      <td> {{user.username}} </td>
+      <td> {{user.password}} </td>
+      <td> {{user.email}} </td>
+      <td> {{user.bio}} </td>
       <td> {% if user.isAdmin %} Y {% else %} N {% endif %}  </td>
       <td> 
           <a href="/admin/edit/{{user.id}}">Edit</a>/ 
           <a href="/admin/delete/{{user.id}}">Delete</a>
       </td>
+      {% endautoescape %}
   </tr>
 {% endfor %}
 
