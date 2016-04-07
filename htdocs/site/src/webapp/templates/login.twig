@@ -11,7 +11,8 @@
 <form action="" method="POST">
 
 <label>Username: </label>
-<input type="text" name="username" value="{{get_cookie_username()}}"> <br />
+<input type="text" name="username" value="{{ cookieUsername }}"> <br />
+    {#<input type="text" name="username" value="{{Handler::get_cookie_username()}}"> <br />#}
 <label>Password: </label>
 <input type="password" name="password"> <br />
 <input type="submit" name="submit" value="Log in">

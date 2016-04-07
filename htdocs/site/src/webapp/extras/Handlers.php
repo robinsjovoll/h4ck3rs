@@ -1,6 +1,7 @@
-<?
+<?php
 
 namespace ttm4135\webapp\extras;
+
 class Handlers
 {
 //TODO: REMOVE
@@ -36,7 +37,7 @@ class Handlers
     {
         $cookie_name = "username";
 
-        if (!isset($_COOKIE[$cookie_name])) {
+//        if (!isset($_COOKIE[$cookie_name])) {
             $cookie_value = $username;
             $thirty_days_from_now = time() + (86400 * 30);
 
@@ -52,7 +53,7 @@ class Handlers
                 true,
                 true
             );
-        }
+//        }
     }
 
     static function nav_class($page)
@@ -81,6 +82,10 @@ class Handlers
         return isset($_SESSION['username']);
     }
 
+    static function cookie_username_isset(){
+        return isset($_COOKIE['username']);
+    }
+
     static function status_isset()
     {
         return isset($_GET['status']);
@@ -88,22 +93,22 @@ class Handlers
 
     static function get_session_username()
     {
-        return sanify($_SESSION['username']);
+        return self::sanify($_SESSION['username']);
     }
 
     static function get_cookie_username()
     {
-        return sanify($_COOKIE["username"]);
+        return self::sanify($_COOKIE["username"]);
     }
 
     static function get_username()
     {
-        return sanify($_GET['username']);
+        return self::sanify($_GET['username']);
     }
 
     static function get_status()
     {
-        return sanify($_GET['status']);
+        return self::sanify($_GET['status']);
     }
 
     static function status_success()

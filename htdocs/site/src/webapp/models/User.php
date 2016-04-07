@@ -23,12 +23,12 @@ class User
     static $app;
 
 
-    static function make($id, $username, $password, $email, $bio, $isAdmin )
+    static function make($id, $username, $hashedPassword, $email, $bio, $isAdmin )
     {
         $user = new User();
         $user->id       = $id;
         $user->username = $username;
-        $user->password = $password;
+        $user->password = $hashedPassword;
         $user->email    = $email;
         $user->bio      = $bio;
         $user->isAdmin  = $isAdmin;
@@ -76,7 +76,7 @@ class User
 
     function isAdmin()
     {
-        return $this->isAdmin === "1";
+        return $this->isAdmin;
     }
 
     function setId($id)

@@ -20,7 +20,11 @@ class LoginController extends Controller
             $this->app->flash('info', 'You are already logged in as ' . $username);
             $this->app->redirect('/');
         } else {
-            $this->render('login.twig', ['title'=>"Login"]);
+            $handler = "";
+            if(Handlers::cookie_username_isset()) {
+                $handler = Handlers::get_cookie_username();
+            }
+            $this->render('login.twig', ['title'=>"Login", 'cookieUsername'=>$handler]);
         }
     }
 
@@ -29,10 +33,12 @@ class LoginController extends Controller
         $request = $this->app->request;
         $username = $request->post('username');
         $password = $request->post('password');
-
-        if ( Auth::checkCredentials($username, $password) ) {
+        $user = Sql::getUserByUsername($username);
+        $hashedPassword = $user->getPassword();
+        $this->app->flashNow('info', $password . " checkingPass: " . $user->getPassword() . " verify: " . password_verify($password, $hashedPassword) . " checking: " .  Auth::checkCredentials($username, $password, $hashedPassword));
+        if ( Auth::checkCredentials($username, $password, $hashedPassword) ) {
             Handlers::set_username_cookie($username);
-            $user = Sql::getUserByUsername($username); //TODO: Move to correct location
+            $user = Sql::getUserByUsername($username);
             $_SESSION['userid'] = $user->getId();
             $this->app->flash('info', "You are now successfully logged in as " . $user->getUsername() . ".");
             $this->app->redirect('/');

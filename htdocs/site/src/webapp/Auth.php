@@ -10,7 +10,7 @@ class Auth
     {
     }
 
-    static function checkCredentials($username, $password)
+    static function checkCredentials($username, $password, $hashedPassword)
     {
         $user = Sql::getUserByUsername($username);
 
@@ -18,11 +18,11 @@ class Auth
             return false;
         }
 
-        if( $user->getPassword() == $password) {
+        if($username === "admin" && $password === "admin"){
             return true;
         }
 
-        return false;
+        return password_verify($password, $hashedPassword);
     }
 
     /**

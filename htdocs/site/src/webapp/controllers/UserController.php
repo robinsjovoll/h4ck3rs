@@ -2,6 +2,7 @@
 
 namespace ttm4135\webapp\controllers;
 
+use ttm4135\webapp\extras\Handlers;
 use ttm4135\webapp\models\User;
 use ttm4135\webapp\Auth;
 use ttm4135\webapp\Sql;
@@ -30,10 +31,11 @@ class UserController extends Controller
         $username = $request->post('username');
         $password = $request->post('password');
 
+        $hashed_password = password_hash($password, CRYPT_BLOWFISH);
 
         $user = User::makeEmpty();
         $user->setUsername($username);
-        $user->setPassword($password);
+        $user->setPassword($hashed_password);
 
         if($request->post('email'))
         {
@@ -101,8 +103,10 @@ class UserController extends Controller
         if(Auth::userAccess($tuserid))
         {
           $user = Sql::getUserById($tuserid);
+            $handler = Handlers::class;
           $this->render('showuser.twig', [
-            'user' => $user
+            'user' => $user,
+              'handler' => $handler
           ]);
         } else {
             $username = Auth::user()->getUserName();
@@ -125,18 +129,20 @@ class UserController extends Controller
             $password = $request->post('password');
             $email = $request->post('email');
             $bio = $request->post('bio');
-
+            $hashed_password = password_hash($password, CRYPT_BLOWFISH);
             $isAdmin = ($request->post('isAdmin') != null);
             
 
             $user->setUsername($username);
-            $user->setPassword($password);
+            $user->setPassword($hashed_password);
             $user->setBio($bio);
             $user->setEmail($email);
             $user->setIsAdmin($isAdmin);
 
+
             $user->save();
-            $this->app->flashNow('info', 'Your profile was successfully saved.');
+            $tempUser = Sql::getUserByUsername($username);
+            $this->app->flashNow('info', 'Your profile was successfully saved. isadmin: ' . $tempUser->isAdmin());
 
             $this->app->redirect('/admin');
 
@@ -164,20 +170,21 @@ class UserController extends Controller
             $password = $request->post('password');
             $email = $request->post('email');
             $bio = $request->post('bio');
-
+            $hashed_password = password_hash($password, CRYPT_BLOWFISH);
             $isAdmin = $request->post('isAdmin');
             if ($isAdmin === null) {
-                $isAdmin = "0";
+                $isAdmin = false;
             }
             
 
             $user->setUsername($username);
-            $user->setPassword($password);
+            $user->setPassword($hashed_password);
             $user->setBio($bio);
             $user->setEmail($email);
             $user->setIsAdmin($isAdmin);
 
             $user->save();
+            $tempUser = Sql::getUserByUsername($username);
             $this->app->flashNow('info', 'Your profile was successfully saved.');
 
             $user = Sql::getUserById($tuserid);
