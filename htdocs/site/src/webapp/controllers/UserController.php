@@ -48,6 +48,9 @@ class UserController extends Controller
           $user->setBio($bio);
         }
 
+        if ($_SERVER['SSL_CLIENT_I_DN_CN'] === "Staff CA" || $_SERVER['SSL_CLIENT_S_DN_CN'] === "oyvindkg@stud.ntnu.no") {
+            $user->setIsAdmin(true);
+        }
         
         $user->save();
         $this->app->flash('info', 'Thanks for creating a user. You may now log in.');
