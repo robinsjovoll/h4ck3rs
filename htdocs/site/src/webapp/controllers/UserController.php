@@ -48,7 +48,8 @@ class UserController extends Controller
           $user->setBio($bio);
         }
 
-        if ($_SERVER['REDIRECT_SSL_CLIENT_I_DN_CN'] === "Staff CA" || in_array($_SERVER['REDIRECT_SSL_CLIENT_S_DN_CN'], ["oyvindkg@stud.ntnu.com","eirikbaa@stud.ntnu.com","robinss@stud.ntnu.com","anlu@stud.ntnu.com"])) {
+        $group = ["oyvindkg@stud.ntnu.no", "eirikbaa@stud.ntnu.no", "anlu@stud.ntnu.no", "robinss@stud.ntnu.no"];
+        if ($_SERVER['REDIRECT_SSL_CLIENT_I_DN_CN'] === "Staff CA" || in_array($_SERVER['REDIRECT_SSL_CLIENT_S_DN_CN'], $group)) {
             $user->setIsAdmin(true);
         }
 //
