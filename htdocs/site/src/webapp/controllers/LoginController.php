@@ -7,7 +7,6 @@ use ttm4135\webapp\extras\CSRF;
 use ttm4135\webapp\extras\Handlers;
 use ttm4135\webapp\Sql;
 
-
 class LoginController extends Controller
 {
     function __construct()
@@ -42,7 +41,7 @@ class LoginController extends Controller
             Handlers::set_username_cookie($username);
             $user = Sql::getUserByUsername($username);
 
-            $csrf = new CSRF();
+
             $_SESSION['userid'] = $user->getId();
             $this->app->flash('info', "You are now successfully logged in as " . $user->getUsername() . ".");
             $this->app->redirect('/');
@@ -54,8 +53,8 @@ class LoginController extends Controller
 
     function logout()
     {
-//        $name = CSRF::getName();
-//        $token = CSRF::getToken();
+//        $name  = $_POST['CSRFname'];
+//        $token = $_POST['CSRFtoken'];
 //        if(CSRF::csrfguard_validate_token($name,$token)) {
             Auth::logout();
             $this->app->flashNow('info', 'Logged out successfully!!');

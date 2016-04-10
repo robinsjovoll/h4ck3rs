@@ -8,6 +8,7 @@
 
 namespace ttm4135\webapp\extras;
 
+
 class CSRF
 {
     private $name;
